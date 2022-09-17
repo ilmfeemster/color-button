@@ -14,3 +14,26 @@ test('button has correct initial color', () => {
 
   expect(colorButton.textContent).toBe('Change to red')
 })
+
+test('initial conditions', () => {
+  render(<App />)
+  //check that the button starts out enabled
+  const colorButton = screen.getByRole('button', { name: 'Change to blue' })
+  expect(colorButton).toBeEnabled()
+
+  //check that the checkbox starts out unchecked
+  const checkbox = screen.getByRole('checkbox')
+  expect(checkbox).not.toBeChecked()
+})
+
+test('checkbox disables/enables button', () => {
+  render(<App />)
+  const colorButton = screen.getByRole('button', { name: 'Change to blue' })
+  const checkbox = screen.getByRole('checkbox')
+  //check that button is disabled when checkbox is checked
+  fireEvent.click(checkbox)
+  expect(colorButton).toBeDisabled()
+  //check that button is enabled when checkbox is unchecked
+  fireEvent.click(checkbox)
+  expect(colorButton).toBeEnabled()
+})
